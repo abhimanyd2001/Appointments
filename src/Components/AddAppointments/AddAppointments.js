@@ -16,19 +16,41 @@ class AddAppointments extends Component {
         };
 
         this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleChange(event) {
         const newValue = event.target.value;
         const name = event.target.name
 
-        console.log(name);
-        console.log(newValue);
-
         this.setState({
             [name]: newValue
         });
     }
+
+    handleSubmit(event) {
+        event.preventDefault();
+
+        const tempData = {
+            petName: this.state.petName,
+            ownerName: this.state.ownerName,
+            aptDate: this.state.aptDate + ' ' + this.state.aptTime,
+            aptNotes: this.state.aptNotes
+        };
+
+        this.setState({
+            petName: '',
+            ownerName: '',
+            aptDate: '',
+            aptTime: '',
+            aptNotes: ''
+        });
+
+
+
+        this.props.addAppointment(tempData);
+    }
+    
 
 
 
@@ -58,6 +80,7 @@ class AddAppointments extends Component {
                       className="form-control"
                       name="petName"
                       placeholder="Pet's Name"
+                      value={this.state.petName}
                       onChange={this.handleChange}
                     />
                   </div>
@@ -76,6 +99,7 @@ class AddAppointments extends Component {
                       className="form-control"
                       name="ownerName"
                       placeholder="Owner's Name"
+                      value={this.state.ownerName}
                       onChange={this.handleChange}
                     />
                   </div>
@@ -94,6 +118,7 @@ class AddAppointments extends Component {
                       className="form-control"
                       name="aptDate"
                       id="aptDate"
+                      value={this.state.aptDate}
                       onChange={this.handleChange}
                     />
                   </div>
@@ -109,6 +134,7 @@ class AddAppointments extends Component {
                       className="form-control"
                       name="aptTime"
                       id="aptTime"
+                      value={this.state.aptTime}
                       onChange={this.handleChange}
                     />
                   </div>
@@ -126,6 +152,7 @@ class AddAppointments extends Component {
                       name="aptNotes"
                       id="aptNotes"
                       placeholder="Appointment Notes"
+                      value={this.state.aptNotes}
                       onChange={this.handleChange}
                     />
                   </div>
@@ -136,6 +163,7 @@ class AddAppointments extends Component {
                     <button
                       type="submit"
                       className="btn btn-primary d-block ml-auto"
+                      onClick={this.handleSubmit}
                     >
                       Add Appointment
                     </button>
