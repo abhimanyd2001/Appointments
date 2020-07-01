@@ -22,7 +22,8 @@ class App extends Component {
     this.addAppointment = this.addAppointment.bind(this);
     this.deleteAppointment = this.deleteAppointment.bind(this);
     this.toggleShow = this.toggleShow.bind(this);
-    this.handleOrderChange = this.handleOrderChange.bind(this);
+    this.changeOrder = this.changeOrder.bind(this);
+    
   }
 
   componentDidMount() {
@@ -64,6 +65,13 @@ class App extends Component {
     this.setState({showDisplay: oppositeDisplay});
   }
 
+  changeOrder(newOrder, newDirection ) {
+    this.setState({
+      orderBy: newOrder,
+      orderDirection: newDirection
+    });
+
+  }
   
   render() {
 
@@ -95,7 +103,7 @@ class App extends Component {
             <div className="container">
 
               <AddAppointments toggleShow={this.toggleShow} show={this.state.showDisplay} addAppointment={this.addAppointment} />
-              <SearchAppointments orderBy={this.state.orderBy} orderDirection={this.state.orderDirection} handleOrderChange={this.handleOrderChange}/>
+              <SearchAppointments orderBy={this.state.orderBy} orderDirection={this.state.orderDirection} changeOrder={this.changeOrder}/>
               <ListAppointments appointments={filteredAppointments} deleteAppointment={this.deleteAppointment} />
 
             </div>
