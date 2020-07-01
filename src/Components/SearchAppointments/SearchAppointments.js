@@ -11,6 +11,9 @@ class SearchAppointments extends Component {
                   type="text"
                   className="form-control"
                   aria-label="Search Appointments"
+                  onChange={(event) => {
+                      this.props.changeQuery(event.target.value)
+                  }}
                 />
                 <div className="input-group-append">
                   <button

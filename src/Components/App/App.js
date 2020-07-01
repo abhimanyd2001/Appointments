@@ -16,13 +16,15 @@ class App extends Component {
       lastId: 0,
       showDisplay: false,
       orderBy: 'aptDate',
-      orderDirection: 'desc'
+      orderDirection: 'desc',
+      query: ''
     }
 
     this.addAppointment = this.addAppointment.bind(this);
     this.deleteAppointment = this.deleteAppointment.bind(this);
     this.toggleShow = this.toggleShow.bind(this);
     this.changeOrder = this.changeOrder.bind(this);
+    this.changeQuery = this.changeQuery.bind(this);
     
   }
 
@@ -72,6 +74,12 @@ class App extends Component {
     });
 
   }
+
+  changeQuery(newQuery) {
+    this.setState({
+      query: newQuery
+    });
+  }
   
   render() {
 
@@ -85,13 +93,19 @@ class App extends Component {
       order = -1;
     }
 
-    filteredAppointments.sort((a,b) => {
+    filteredAppointments = filteredAppointments.sort((a,b) => {
       if (a[this.state.orderBy] < b[this.state.orderBy]) {
         return -1  * order;
       }
       else {
         return 1 * order;
       }
+    }).filter(each => {
+      return (
+        each['petName'].toLowerCase().includes(this.state.query.toLowerCase()) ||
+        each['ownerName'].toLowerCase().includes(this.state.query.toLowerCase()) ||
+        each['aptNotes'].toLowerCase().includes(this.state.query.toLowerCase())
+      );
     });
 
     return (
@@ -103,7 +117,7 @@ class App extends Component {
             <div className="container">
 
               <AddAppointments toggleShow={this.toggleShow} show={this.state.showDisplay} addAppointment={this.addAppointment} />
-              <SearchAppointments orderBy={this.state.orderBy} orderDirection={this.state.orderDirection} changeOrder={this.changeOrder}/>
+              <SearchAppointments orderBy={this.state.orderBy} orderDirection={this.state.orderDirection} changeOrder={this.changeOrder} changeQuery={this.changeQuery}/>
               <ListAppointments appointments={filteredAppointments} deleteAppointment={this.deleteAppointment} />
 
             </div>
